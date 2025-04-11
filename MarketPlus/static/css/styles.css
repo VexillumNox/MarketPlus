@@ -1,0 +1,104 @@
+/* static/css/styles.css */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #2f2f2f; /* Graphite background */
+    color: white; /* White body text */
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    color: #f39c12; /* Amber color for heading */
+    font-size: 2.5em;
+    margin-top: 20px;
+}
+
+form {
+    margin: 20px auto;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    background-color: #3c3c3c; /* Slightly lighter graphite for the form container */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
+}
+
+label {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    display: block;
+}
+
+input[type="text"], select, button {
+    padding: 12px 15px;
+    margin: 8px 0 20px 0;
+    font-size: 1em;
+    width: 100%; /* Ensure the input takes up the full width of the form */
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #555; /* Slightly lighter background for inputs */
+    color: white;
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+button {
+    cursor: pointer;
+    background-color: #f39c12; /* Amber button */
+    border: none;
+    color: white;
+    font-size: 1.2em;
+}
+
+button:hover {
+    background-color: #e67e22;
+}
+
+table {
+    margin-top: 30px;
+    width: 90%;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #555;
+}
+
+table th {
+    background-color: #333; /* Darker background for the header row */
+    color: #f39c12; /* Amber for header text */
+}
+
+table tr:nth-child(even) {
+    background-color: #444; /* Alternate row color */
+}
+
+table tr:hover {
+    background-color: #555; /* Highlight on hover */
+}
+
+p {
+    color: #f39c12; /* Amber for error messages */
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
+
+    form {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    input[type="text"], select, button {
+        font-size: 1em;
+    }
+}

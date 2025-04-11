@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MarketPlus - Stock Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Adding Chart.js -->
+    <style>
+        /* General layout styling */
+        body {
+            font-family: "Franklin Gothic", "Arial", sans-serif; /* Franklin Gothic or fallback to Arial */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            background-color: #383838; /* Graphite Gray background (darker) */
+            color: white; /* White text for everything */
+        }
+
+        .content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center; /* Center the form and chart */
+        }
+
+        h1, h2 {
+            color: #FFBF00; /* Amber color for headings */
+        }
+
+        /* Form Styling */
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 5px;
+            font-size: 1rem;
+            width: 200px;  /* Make input fields a bit wider */
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #FFBF00; /* Amber button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #FFA500; /* Darker amber on hover */
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #FFBF00; /* Amber background for table headings */
+            color: white;
+        }
+
+        /* Chart Styling */
+        #stockChart {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Welcome to MarketPlus</h1>
+
+        <form action="/" method="POST">
+            <label for="symbol">Enter Stock Symbol:</label>
+            <input type="text" id="symbol" name="symbol" required>
+            
+            <label for="outputsize">Data Size:</label>
+            <select name="outputsize" id="outputsize">
+                <option value="compact">Compact (100 days)</option>
+                <option value="full">Full (20+ years)</option>
+            </select>
+            
+            <button type="submit">Search</button>
+        </form>
+
+        {% if error_message %}
+            <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+
+        {% if stock_data %}
+            <h2>Stock Data for {{ request.form['symbol'] }}</h2>
+            <canvas id="stockChart" width="400" height="200"></canvas> <!-- Canvas for the chart -->
+
+            <table border="1">
+                <tr>
+                    <th>Date</th>
+                    <th>Open</th>
+                    <th>High</th>
+                    <th>Low</th>
+                    <th>Close</th>
+                    <th>Volume</th>
+                </tr>
+                {% for date, info in stock_data.items() %}
+                <tr>
+                    <td>{{ date }}</td>
+                    <td>{{ info['1. open'] }}</td>
+                    <td>{{ info['2. high'] }}</td>
+                    <td>{{ info['3. low'] }}</td>
+                    <td>{{ info['4. close'] }}</td>
+                    <td>{{ info['5. volume'] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+
+        <script>
+            // Check if stock_data is passed to the template
+            {% if stock_data %}
+                const stockData = {{ stock_data | tojson }};  // Pass stock data as JSON
+
+                // Extract the data needed for the chart
+                const dates = Object.keys(stockData);
+                const openPrices = dates.map(date => stockData[date]['1. open']);
+                const highPrices = dates.map(date => stockData[date]['2. high']);
+                const lowPrices = dates.map(date => stockData[date]['3. low']);
+                const closePrices = dates.map(date => stockData[date]['4. close']);
+                const volumes = dates.map(date => stockData[date]['5. volume']);
+
+                // Format the x-axis labels as times
+                const times = dates.map(date => {
+                    const time = new Date(date);
+                    return time.getHours() + ':' + (time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes());
+                });
+
+                // Create the chart
+                const ctx = document.getElementById('stockChart').getContext('2d');
+                const stockChart = new Chart(ctx, {
+                    type: 'line',  // Main chart type
+                    data: {
+                        labels: times,  // x-axis: times (HH:MM)
+                        datasets: [{
+                            label: 'Open Price',
+                            data: openPrices,
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            fill: false,
+                            tension: 0.1
+                        }, {
+                            label: 'High Price',
+                            data: highPrices,
+                            borderColor: 'rgba(0, 255, 0, 1)',
+                            fill: false,
+                            tension: 0.1
+                        }, {
+                            label: 'Low Price',
+                            data: lowPrices,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            fill: false,
+                            tension: 0.1
+                        }, {
+                            label: 'Close Price',
+                            data: closePrices,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            fill: false,
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Stock Price History'
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Time'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Price (USD)'
+                                }
+                            }
+                        }
+                    }
+                });
+            {% endif %}
+        </script>
+    </div>
+</body>
+</html>
