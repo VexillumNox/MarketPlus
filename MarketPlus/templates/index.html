@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>MarketPlus - Stock Search</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Adding Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* General layout styling */
         body {
-            font-family: "Franklin Gothic", "Arial", sans-serif; /* Franklin Gothic or fallback to Arial */
+            font-family: "Franklin Gothic", "Arial", sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            background-color: #383838; /* Graphite Gray background (darker) */
-            color: white; /* White text for everything */
+            background-color: #383838;
+            color: white;
         }
 
         .content {
@@ -25,14 +24,13 @@
             max-width: 1200px;
             padding: 20px;
             box-sizing: border-box;
-            text-align: center; /* Center the form and chart */
+            text-align: center;
         }
 
         h1, h2 {
-            color: #FFBF00; /* Amber color for headings */
+            color: #FFBF00;
         }
 
-        /* Form Styling */
         form {
             text-align: center;
             margin-bottom: 20px;
@@ -42,24 +40,23 @@
             padding: 10px;
             margin: 5px;
             font-size: 1rem;
-            width: 200px;  /* Make input fields a bit wider */
+            width: 200px;
         }
 
         button {
             padding: 10px 15px;
             font-size: 1rem;
             cursor: pointer;
-            background-color: #FFBF00; /* Amber button */
+            background-color: #FFBF00;
             color: white;
             border: none;
             border-radius: 5px;
         }
 
         button:hover {
-            background-color: #FFA500; /* Darker amber on hover */
+            background-color: #FFA500;
         }
 
-        /* Table Styling */
         table {
             width: 100%;
             margin-top: 20px;
@@ -73,11 +70,10 @@
         }
 
         th {
-            background-color: #FFBF00; /* Amber background for table headings */
+            background-color: #FFBF00;
             color: white;
         }
 
-        /* Chart Styling */
         #stockChart {
             margin-top: 20px;
             margin-bottom: 20px;
@@ -91,13 +87,12 @@
         <form action="/" method="POST">
             <label for="symbol">Enter Stock Symbol:</label>
             <input type="text" id="symbol" name="symbol" required>
-            
+
             <label for="outputsize">Data Size:</label>
             <select name="outputsize" id="outputsize">
                 <option value="compact">Compact (100 days)</option>
-                <option value="full">Full (20+ years)</option>
             </select>
-            
+
             <button type="submit">Search</button>
         </form>
 
@@ -107,7 +102,7 @@
 
         {% if stock_data %}
             <h2>Stock Data for {{ request.form['symbol'] }}</h2>
-            <canvas id="stockChart" width="400" height="200"></canvas> <!-- Canvas for the chart -->
+            <canvas id="stockChart" width="400" height="200"></canvas>
 
             <table border="1">
                 <tr>
@@ -121,92 +116,96 @@
                 {% for date, info in stock_data.items() %}
                 <tr>
                     <td>{{ date }}</td>
-                    <td>{{ info['1. open'] }}</td>
-                    <td>{{ info['2. high'] }}</td>
-                    <td>{{ info['3. low'] }}</td>
-                    <td>{{ info['4. close'] }}</td>
-                    <td>{{ info['5. volume'] }}</td>
+                    <td>{{ '%.2f'|format(info['1. open']|float) }}</td>
+                    <td>{{ '%.2f'|format(info['2. high']|float) }}</td>
+                    <td>{{ '%.2f'|format(info['3. low']|float) }}</td>
+                    <td>{{ '%.2f'|format(info['4. close']|float) }}</td>
+                    <td>{{ "{:,}".format(info['5. volume']|int) }}</td>
                 </tr>
                 {% endfor %}
             </table>
         {% endif %}
 
         <script>
-            // Check if stock_data is passed to the template
-            {% if stock_data %}
-                const stockData = {{ stock_data | tojson }};  // Pass stock data as JSON
+        {% if stock_data %}
+            const stockData = {{ stock_data | tojson }};
+            const dates = Object.keys(stockData);
 
-                // Extract the data needed for the chart
-                const dates = Object.keys(stockData);
-                const openPrices = dates.map(date => stockData[date]['1. open']);
-                const highPrices = dates.map(date => stockData[date]['2. high']);
-                const lowPrices = dates.map(date => stockData[date]['3. low']);
-                const closePrices = dates.map(date => stockData[date]['4. close']);
-                const volumes = dates.map(date => stockData[date]['5. volume']);
+            const typicalPrices = dates.map(date => {
+                const high = parseFloat(stockData[date]['2. high']);
+                const low = parseFloat(stockData[date]['3. low']);
+                const close = parseFloat(stockData[date]['4. close']);
+                return ((high + low + close) / 3).toFixed(2);
+            });
 
-                // Format the x-axis labels as times
-                const times = dates.map(date => {
-                    const time = new Date(date);
-                    return time.getHours() + ':' + (time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes());
-                });
+            const volumesRaw = dates.map(date => parseInt(stockData[date]['5. volume']));
+            const scaledVolumes = volumesRaw.map(v => Math.pow(v, 0.3).toFixed(2));
 
-                // Create the chart
-                const ctx = document.getElementById('stockChart').getContext('2d');
-                const stockChart = new Chart(ctx, {
-                    type: 'line',  // Main chart type
-                    data: {
-                        labels: times,  // x-axis: times (HH:MM)
-                        datasets: [{
-                            label: 'Open Price',
-                            data: openPrices,
-                            borderColor: 'rgba(255, 159, 64, 1)',
-                            fill: false,
+            const times = dates.map(date => {
+                const time = new Date(date);
+                return time.getHours() + ':' + (time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes());
+            });
+
+            const ctx = document.getElementById('stockChart').getContext('2d');
+            const stockChart = new Chart(ctx, {
+                data: {
+                    labels: times,
+                    datasets: [
+                        {
+                            type: 'line',
+                            label: 'Typical Price',
+                            data: typicalPrices,
+                            borderColor: 'white',
+                            backgroundColor: 'transparent',
+                            yAxisID: 'y',
                             tension: 0.1
-                        }, {
-                            label: 'High Price',
-                            data: highPrices,
-                            borderColor: 'rgba(0, 255, 0, 1)',
-                            fill: false,
-                            tension: 0.1
-                        }, {
-                            label: 'Low Price',
-                            data: lowPrices,
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            fill: false,
-                            tension: 0.1
-                        }, {
-                            label: 'Close Price',
-                            data: closePrices,
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            fill: false,
-                            tension: 0.1
-                        }]
+                        },
+                        {
+                            type: 'bar',
+                            label: 'Volume (scaled)',
+                            data: scaledVolumes,
+                            backgroundColor: 'rgba(255, 191, 0, 0.6)',
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Typical Price & Scaled Trading Volume'
+                        }
                     },
-                    options: {
-                        responsive: true,
-                        plugins: {
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
                             title: {
                                 display: true,
-                                text: 'Stock Price History'
+                                text: 'Price (USD)'
                             }
                         },
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Time'
-                                }
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Volume (scaled)'
                             },
-                            y: {
-                                title: {
-                                    display: true,
-                                    text: 'Price (USD)'
-                                }
+                            grid: {
+                                drawOnChartArea: false
+                            },
+                            ticks: {
+                                display: false
                             }
                         }
                     }
-                });
-            {% endif %}
+                }
+            });
+        {% endif %}
         </script>
     </div>
 </body>
