@@ -131,6 +131,7 @@
             const stockData = {{ stock_data | tojson }};
             const dates = Object.keys(stockData);
 
+            // Calculate Typical Price
             const typicalPrices = dates.map(date => {
                 const high = parseFloat(stockData[date]['2. high']);
                 const low = parseFloat(stockData[date]['3. low']);
@@ -138,9 +139,11 @@
                 return ((high + low + close) / 3).toFixed(2);
             });
 
+            // Raw and Scaled Volume
             const volumesRaw = dates.map(date => parseInt(stockData[date]['5. volume']));
             const scaledVolumes = volumesRaw.map(v => Math.pow(v, 0.3).toFixed(2));
 
+            // Prepare time labels
             const times = dates.map(date => {
                 const time = new Date(date);
                 return time.getHours() + ':' + (time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes());
@@ -175,6 +178,31 @@
                         title: {
                             display: true,
                             text: 'Typical Price & Scaled Trading Volume'
+                        },
+                        tooltip: {
+                            enabled: true,
+                            mode: 'nearest',
+                            intersect: false,
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    const datasetIndex = tooltipItem.datasetIndex;
+
+                                    // Show typical price when hovering over the line chart
+                                    if (datasetIndex === 0) {
+                                        return `Typical Price: $${tooltipItem.raw}`;
+                                    }
+
+                                    // Show raw volume (not scaled) when hovering over the bar chart
+                                    if (datasetIndex === 1) {
+                                        const rawVolume = volumesRaw[tooltipItem.index];
+                                        return `Volume: ${rawVolume.toLocaleString()}`;  // Show actual volume (raw)
+                                    }
+                                },
+                                title: function(tooltipItems) {
+                                    const date = tooltipItems[0].label;
+                                    return `Date: ${date}`;
+                                }
+                            }
                         }
                     },
                     scales: {
