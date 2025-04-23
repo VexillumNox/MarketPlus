@@ -1,1 +1,5 @@
-flask-caching
+Flask==2.1.2
+Flask-Caching==1.10.1
+requests==2.26.0
+python-dotenv==0.19.2  # For loading .env file
+alpha_vantage==2.3.1  # Optional, if you prefer using a wrapper for Alpha Vantage API
