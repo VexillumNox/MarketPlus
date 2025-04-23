@@ -1,123 +1,159 @@
-MarketPlus
-MarketPlus is a web application built with Flask that allows users to view real-time stock market data. Users can search for a stock symbol (e.g., AAPL for Apple) and see the latest stock information pulled from the Alpha Vantage API. The project is designed to be simple, lightweight, and easy to use.
+# MarketPlus
 
-Features
-Real-time stock data retrieval
+**MarketPlus** is a web application built with Flask that allows users to view real-time stock market data. Users can search for a stock symbol (e.g., `AAPL` for Apple) and see the latest stock information pulled from the Alpha Vantage API. The project is designed to be simple, lightweight, and easy to use.
 
-Search for stocks by symbol (e.g., AAPL, TSLA)
+---
 
-Simple, user-friendly web interface
+## Features
 
-Integration with free Alpha Vantage API
+- Real-time stock data retrieval  
+- Stock search feature by symbol (e.g., `AAPL`, `TSLA`)  
+- Simple, user-friendly web interface  
+- Integration with a **free** Alpha Vantage API for live data  
+- Runs locally or remotely using services like Ngrok  
 
-Can run locally or remotely (e.g., with Ngrok)
+---
 
-Technologies
-Python 3.x
+## Technologies
 
-Flask (web framework)
+- Python 3.x  
+- Flask (web framework)  
+- Alpha Vantage API  
+- HTML / CSS / JavaScript (frontend)  
 
-Alpha Vantage API
+---
 
-HTML / CSS / JavaScript (frontend)
+## Installation
 
-Installation
-1. Clone the Repository
-bash
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/yourusername/MarketPlus.git
 cd MarketPlus
+```
 
-2. Set Up a Virtual Environment
-On macOS/Linux:
+### 2. Set up a virtual environment
 
-bash
+**On macOS/Linux:**
+
+```bash
 python3 -m venv myenv
 source myenv/bin/activate
+```
 
-On Windows:
+**On Windows (PC):**
 
-bash
+```bash
 python -m venv myenv
 myenv\Scripts\activate
+```
 
-If you see an error like 'python' is not recognized, try using python3 instead of python.
+> If you see an error like `'python' is not recognized`, try using `python3` instead of `python`.
 
-3. Install Dependencies
-bash
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-4. Set Up Environment Variables
-Create a .env file in the root directory and add your Alpha Vantage API key:
+### 4. Set up environment variables
 
-ini
+Create a `.env` file in the root of your project directory and add your Alpha Vantage API key:
+
+```
 API_KEY=your_alphavantage_api_key
+```
 
-On Windows (PowerShell):
+**On Windows using PowerShell:**
 
-powershell
+```powershell
 New-Item -Path . -Name ".env" -ItemType "file"
+```
 
-Then edit the file using Notepad or your preferred editor.
+Then edit the file using Notepad or your code editor.
 
-5. Run the Application
-On macOS/Linux or Windows:
+### 5. Run the application
 
-bash
+**On macOS/Linux or Windows:**
+
+```bash
 python run.py
+```
 
-The app will be available at: http://127.0.0.1:5000/
+Once running, the app will be available at:
 
-Usage
-Open your web browser and go to http://127.0.0.1:5000/
+```
+http://127.0.0.1:5000/
+```
 
-Enter a stock symbol like AAPL or TSLA
+---
 
-View the returned real-time stock data including prices, trends, and timestamps
+## Usage
 
-Troubleshooting
-429 Too Many Requests
+1. Open your web browser and navigate to `http://127.0.0.1:5000/`
+2. Enter a stock symbol such as `AAPL` or `TSLA` into the search bar
+3. View the returned real-time stock data including prices, trends, and timestamps
 
-This means you've hit the free-tier rate limit of the Alpha Vantage API.
+---
 
-Wait a minute for the rate limit to reset
+## Troubleshooting
 
-Or consider upgrading your Alpha Vantage plan
+### 429 Too Many Requests
 
-More info: Alpha Vantage API Rate Limits
+If you receive the error `429 Too Many Requests`, it means you're hitting the rate limit of the free-tier Alpha Vantage API. You can either:
 
-Contributing
-Contributions are welcome!
+- Wait for the rate limit to reset (usually after 1 minute)
+- Consider upgrading your Alpha Vantage plan for higher request limits
 
-How to Contribute
-Fork the repository
+> For further details, check the [Alpha Vantage API rate limits](https://www.alphavantage.co/support/#api-key)
 
-Clone your fork:
+---
 
-bash
+## Contributing
+
+Contributions are welcome.
+
+### How to Contribute
+
+1. Fork the repository on GitHub
+2. Clone your fork to your local machine:
+
+```bash
 git clone https://github.com/yourusername/MarketPlus.git
 cd MarketPlus
+```
 
-Create a new branch:
+3. Create a new branch:
 
-bash
+```bash
 git checkout -b feature-branch
+```
 
-Make your changes and commit:
+4. Make your changes
+5. Commit your changes:
 
-bash
+```bash
 git commit -m "Add new feature"
+```
 
-Push to your fork:
+6. Push to your fork:
 
-bash
+```bash
 git push origin feature-branch
+```
 
-Open a pull request to the main branch of this repo
+7. Open a pull request to the main branch of this repository
 
-License
+---
+
+## License
+
 This project is licensed under the MIT License.
 
-Contact
+---
+
+## Contact
+
 For questions or support:
 
-Adam — niemi1as@gmail.com
+**Adam** — niemi1as@gmail.com
