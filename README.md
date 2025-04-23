@@ -35,12 +35,12 @@ cd MarketPlus
 
 2. Set up a virtual environment
 On macOS/Linux:
-bash
+'''bash
 python3 -m venv myenv
 source myenv/bin/activate
 
 On Windows (PC):
-bash
+'''bash
 python -m venv myenv
 myenv\Scripts\activate
 
@@ -49,17 +49,19 @@ If you see an error like 'python' is not recognized, try using python3 instead o
 3. Install dependencies
 Once the virtual environment is activated, run:
 
-bash
+'''bash
 pip install -r requirements.txt
 
 4. Set up environment variables
 Create a .env file in the root of your project directory and add your free Alpha Vantage API key like this:
 
+'''bash
 ini
 API_KEY=your_alphavantage_api_key
 
 If you're on Windows and using PowerShell, you can create the file like this:
 
+'''bash
 powershell
 New-Item -Path . -Name ".env" -ItemType "file"
 
@@ -67,15 +69,16 @@ Then edit it using Notepad or your code editor.
 
 5. Run the application
 On macOS/Linux:
-bash
+'''bash
 python run.py
 
 On Windows (PC):
-bash
+'''bash
 python run.py
 
 Once running, the app will be available at:
 
+'''bash
 cpp
 http://127.0.0.1:5000/
 
@@ -105,25 +108,25 @@ Fork the repository on GitHub.
 
 Clone your fork to your local machine:
 
-bash
+'''bash
 git clone https://github.com/yourusername/MarketPlus.git
 cd MarketPlus
 
 Create a new branch:
 
-bash
+'''bash
 git checkout -b feature-branch
 
 Make your changes.
 
 Commit your changes:
 
-bash
+'''bash
 git commit -m "Add new feature"
 
 Push to your fork:
 
-bash
+'''bash
 git push origin feature-branch
 
 Open a pull request to the main branch of this repository.
