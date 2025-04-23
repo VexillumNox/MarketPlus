@@ -32,147 +32,106 @@ Open a terminal or command prompt and run:
 ```bash
 git clone https://github.com/yourusername/MarketPlus.git
 cd MarketPlus
-```
 
-### 2. Set up a virtual environment
-
-#### On macOS/Linux:
-
-```bash
+2. Set up a virtual environment
+On macOS/Linux:
+bash
 python3 -m venv myenv
 source myenv/bin/activate
-```
 
-#### On Windows (PC):
-
-```bash
+On Windows (PC):
+bash
 python -m venv myenv
 myenv\Scripts\activate
-```
 
-If you see an error like `'python' is not recognized`, try using `python3` instead of `python`.
+If you see an error like 'python' is not recognized, try using python3 instead of python.
 
-### 3. Install dependencies
-
+3. Install dependencies
 Once the virtual environment is activated, run:
 
-```bash
+bash
 pip install -r requirements.txt
-```
 
-If `requirements.txt` does not exist yet, you can create it using:
+4. Set up environment variables
+Create a .env file in the root of your project directory and add your free Alpha Vantage API key like this:
 
-```bash
-pip freeze > requirements.txt
-```
-
-**Example contents of `requirements.txt`:**
-
-```
-Flask
-alpha-vantage-api-client
-requests
-```
-
-### 4. Set up environment variables
-
-Create a `.env` file in the root of your project directory and add your **free** Alpha Vantage API key like this:
-
-```
+ini
 API_KEY=your_alphavantage_api_key
-```
 
 If you're on Windows and using PowerShell, you can create the file like this:
 
-```powershell
+powershell
 New-Item -Path . -Name ".env" -ItemType "file"
-```
 
 Then edit it using Notepad or your code editor.
 
-### 5. Run the application
-
-#### On macOS/Linux:
-
-```bash
+5. Run the application
+On macOS/Linux:
+bash
 python run.py
-```
 
-#### On Windows (PC):
-
-```bash
+On Windows (PC):
+bash
 python run.py
-```
 
 Once running, the app will be available at:
 
-```
+cpp
 http://127.0.0.1:5000/
-```
 
----
+Usage
+Open your web browser and navigate to http://127.0.0.1:5000/
 
-## Usage
+Enter a stock symbol such as AAPL or TSLA into the search bar.
 
-1. Open your web browser and navigate to `http://127.0.0.1:5000/`
-2. Enter a stock symbol such as `AAPL` or `TSLA` into the search bar
-3. View the returned real-time stock data including prices, trends, and timestamps
+View the returned real-time stock data including prices, trends, and timestamps.
 
----
+Troubleshooting
+429 Too Many Requests
 
-## Troubleshooting
+If you receive the error 429 Too Many Requests, it means you're hitting the rate limit of the free-tier Alpha Vantage API. You can either:
 
-**429 Too Many Requests**
+Wait for the rate limit to reset (usually after 1 minute).
 
-This means you're hitting the rate limit of the free-tier Alpha Vantage API. You can either wait for the limit to reset or upgrade your Alpha Vantage plan for more requests.
+Consider upgrading your Alpha Vantage plan for higher request limits.
 
----
+For further details, check the Alpha Vantage API rate limits.
 
-## Contributing
-
+Contributing
 Contributions are welcome.
 
-### How to Contribute
+How to Contribute
+Fork the repository on GitHub.
 
-1. Fork the repository on GitHub  
-2. Clone your fork to your local machine:
+Clone your fork to your local machine:
 
-```bash
+bash
 git clone https://github.com/yourusername/MarketPlus.git
 cd MarketPlus
-```
 
-3. Create a new branch:
+Create a new branch:
 
-```bash
+bash
 git checkout -b feature-branch
-```
 
-4. Make your changes  
-5. Commit your changes:
+Make your changes.
 
-```bash
+Commit your changes:
+
+bash
 git commit -m "Add new feature"
-```
 
-6. Push to your fork:
+Push to your fork:
 
-```bash
+bash
 git push origin feature-branch
-```
 
-7. Open a pull request to the `main` branch of this repository
+Open a pull request to the main branch of this repository.
 
----
+License
+This project is licensed under the MIT License.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE)
-
----
-
-## Contact
-
+Contact
 For questions or support:
 
-**Adam** — [niemi1as@gmail.com](mailto:niemi1as@gmail.com)
+Adam — niemi1as@gmail.com
