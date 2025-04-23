@@ -27,61 +27,61 @@
 
 ### 1. Clone the repository
 
-Open a terminal or command prompt and run:
-
 ```bash
 git clone https://github.com/yourusername/MarketPlus.git
 cd MarketPlus
-
 2. Set up a virtual environment
 On macOS/Linux:
-'''bash
+bash
+Copy
+Edit
 python3 -m venv myenv
 source myenv/bin/activate
-
 On Windows (PC):
-'''bash
+bash
+Copy
+Edit
 python -m venv myenv
 myenv\Scripts\activate
-
 If you see an error like 'python' is not recognized, try using python3 instead of python.
 
 3. Install dependencies
-Once the virtual environment is activated, run:
-
-'''bash
+bash
+Copy
+Edit
 pip install -r requirements.txt
-
 4. Set up environment variables
 Create a .env file in the root of your project directory and add your free Alpha Vantage API key like this:
 
-'''bash
-ini
+env
+Copy
+Edit
 API_KEY=your_alphavantage_api_key
-
 If you're on Windows and using PowerShell, you can create the file like this:
 
-'''bash
 powershell
+Copy
+Edit
 New-Item -Path . -Name ".env" -ItemType "file"
-
 Then edit it using Notepad or your code editor.
 
 5. Run the application
 On macOS/Linux:
-'''bash
+bash
+Copy
+Edit
 python run.py
-
 On Windows (PC):
-'''bash
+bash
+Copy
+Edit
 python run.py
-
 Once running, the app will be available at:
 
-'''bash
 cpp
+Copy
+Edit
 http://127.0.0.1:5000/
-
 Usage
 Open your web browser and navigate to http://127.0.0.1:5000/
 
@@ -108,27 +108,31 @@ Fork the repository on GitHub.
 
 Clone your fork to your local machine:
 
-'''bash
+bash
+Copy
+Edit
 git clone https://github.com/yourusername/MarketPlus.git
 cd MarketPlus
-
 Create a new branch:
 
-'''bash
+bash
+Copy
+Edit
 git checkout -b feature-branch
-
 Make your changes.
 
 Commit your changes:
 
-'''bash
+bash
+Copy
+Edit
 git commit -m "Add new feature"
-
 Push to your fork:
 
-'''bash
+bash
+Copy
+Edit
 git push origin feature-branch
-
 Open a pull request to the main branch of this repository.
 
 License
