@@ -1,6 +1,6 @@
 # MarketPlus
 
-**MarketPlus** is a web application built with Flask that allows users to view real-time stock market data. Users can search for a stock symbol (e.g. `AAPL` for Apple) and see the latest stock information pulled from the Polygon.io API. The project is designed to be simple, lightweight, and easy to use.
+**MarketPlus** is a web application built with Flask that allows users to view real-time stock market data. Users can search for a stock symbol (e.g. `AAPL` for Apple) and see the latest stock information pulled from the Alpha Vantage API. The project is designed to be simple, lightweight, and easy to use.
 
 ---
 
@@ -9,7 +9,7 @@
 - Real-time stock data retrieval  
 - Stock search feature by symbol (e.g. `AAPL`, `TSLA`)  
 - Simple, user-friendly web interface  
-- Integration with a **free** Polygon.io API for live data  
+- Integration with a **free** Alpha Vantage API for live data  
 - Runs locally or remotely using services like Ngrok  
 
 ---
@@ -18,7 +18,7 @@
 
 - Python 3.x  
 - Flask (web framework)  
-- Polygon.io API  
+- Alpha Vantage API  
 - HTML / CSS / JavaScript (frontend)  
 
 ---
@@ -70,16 +70,16 @@ pip freeze > requirements.txt
 
 ```
 Flask
-polygon-api-client
+alpha-vantage-api-client
 requests
 ```
 
 ### 4. Set up environment variables
 
-Create a `.env` file in the root of your project directory and add your **free** Polygon.io API key like this:
+Create a `.env` file in the root of your project directory and add your **free** Alpha Vantage API key like this:
 
 ```
-API_KEY=your_polygon_api_key
+API_KEY=your_alphavantage_api_key
 ```
 
 If you're on Windows and using PowerShell, you can create the file like this:
@@ -124,7 +124,7 @@ http://127.0.0.1:5000/
 
 **429 Too Many Requests**
 
-This means you're hitting the rate limit of the free-tier Polygon.io API. You can either wait for the limit to reset or upgrade your Polygon.io plan for more requests.
+This means you're hitting the rate limit of the free-tier Alpha Vantage API. You can either wait for the limit to reset or upgrade your Alpha Vantage plan for more requests.
 
 ---
 
